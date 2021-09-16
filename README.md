@@ -1,4 +1,7 @@
 # Object Tracking in the NBA: Automating Statistical Recording 
+
+![](IMAGES/Basketball-tracker.gif)
+
 For this project, I wanted to incorporate something I love very much: Basketball! I am an NBA fanatic and my interest in how Advanced analytics is changing basketball is a major reason I decided to pursue data science. Machine learning plays a huge part in NBA franchises. I find this fascinating and wanted to attempt a project in this world.
 
 This project will build a program that will be able to identify the ball, made baskets, track players on their respective teams and possession of the ball using a custom trained neural network. I will build this model using traditional broadcast footage as I couldn’t find anything better and figured it was the most practical for anyone who might use this program. Some inspiration behind this project comes from a blog post from an individual who attempted to train a model to create a basketball highlight reel. Although the primary goal of this model is to automate statistical recording, I will attempt to create a highlight reel as well.
