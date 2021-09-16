@@ -3,11 +3,7 @@ For this project, I wanted to incorporate something I love very much: Basketball
 
 This project will build a program that will be able to identify the ball, made baskets, track players on their respective teams and possession of the ball using a custom trained neural network. I will build this model using traditional broadcast footage as I couldn’t find anything better and figured it was the most practical for anyone who might use this program. Some inspiration behind this project comes from a blog post from an individual who attempted to train a model to create a basketball highlight reel. Although the primary goal of this model is to automate statistical recording, I will attempt to create a highlight reel as well.
 
-For the custom object training I referenced and built off of [this colab notebook](https://colab.research.google.com/drive/1Mh2HP_Mfxoao6qNFbhfV3u28tG8jAVGk). That notebook is explained in [this video](https://www.youtube.com/watch?v=10joRJt39Ns&feature=emb_logo&ab_channel=TheAIGuy). The AI Guy is an awesome resource and fast tracked my understanding of YOLO Object Detection and the Darknet Framework. 
-
-For Object Tracking, I built off of a framework set up [here](https://github.com/pythonlessons/TensorFlow-2.x-YOLOv3/blob/master/yolov3/utils.py). Again, having this notebook really sped up my ability to impliment the player tracking feature.
-
-
+For the custom object training I referenced and built off of [this colab notebook](https://colab.research.google.com/drive/1Mh2HP_Mfxoao6qNFbhfV3u28tG8jAVGk). That notebook is explained in [this video](https://www.youtube.com/watch?v=10joRJt39Ns&feature=emb_logo&ab_channel=TheAIGuy). The AI Guy is a great resource who fast tracked my understanding of YOLO Object Detection and the Darknet Framework. For Object Tracking, I built off of a framework set up [here](https://github.com/pythonlessons/TensorFlow-2.x-YOLOv3/blob/master/yolov3/utils.py). 
 
 ## Project Goal
 Build a model that identifies highlights in a basketball game and tracks statistics. Model should identify the basketball, made baskets, track and determine the team of players. 
@@ -18,7 +14,7 @@ Build a model that identifies highlights in a basketball game and tracks statist
 I decided to use traditional broadcast footage as this is what is primarily available and what would theoretically be fed into the model to produce highlights. If this model were going to be used primarily as a tool to identify statistics, video from stationary areas around the court could be used. This video is typically not available to the public. The NBA does not release game footage so I had to screen record games on youtube to get testing and training data.
 
 ### Labeling Data
-Since I could not find a labeled image set of NBA basketball games, I had to create my own. I started this process by screen recording 4 separate games on Youtube. In order to train an object detection system to identify new objects, it must be trained on labeled images. Since my dataset is composed of videos, I wrote a script that reads in a video and extracts the frames. This script is in the [ImageCapture](ImageCapture/ImageCapture.ipynb). I then used [labelimg](https://github.com/tzutalin/labelImg), a graphical image annotation tool, to label the basketball and “made baskets” manually for 1500 images. This was all the data I used for the training of my model.
+Since I could not find a labeled image set of NBA basketball games, I had to create my own. I started this process by screen recording 4 separate games on Youtube. Labeled images are required to train an object detection system. Since my dataset is composed of videos, I wrote a script that reads in a video and extracts the frames. This script is in the [ImageCapture Notebook](ImageCapture/ImageCapture.ipynb). I then used [labelimg](https://github.com/tzutalin/labelImg), a graphical image annotation tool, to label the basketball and “made baskets” manually for 1500 images. This was all the data I used for the training of my model.
 
 ![](IMAGES/labelimg1.png)  |  ![](IMAGES/labelimg2.png)
 
@@ -61,8 +57,11 @@ The program returns a list of “made basket” frames which can be used to spli
 The video analyzation will return a list of "made basket" frames. With that we can use the [slice_video file](slice_video.py) to obtain a "highlight reel".
 
 ### Putting it all together
+![](IMAGES/Basketball-tracker.gif)
+
+In the above Gif, the basketball is identified by the red box. When a basket is scored, a green box flashes on the screen indicating a made basket. The basket is counted and the frame is logged to identify when the basketball was scored for the highlight reel. The players are tracked throughout the video. When the scene is cut, new player numbers are assigned. The possession flag is marked at the top of the video dictating which team has control of the ball. The running average ratio of when the ball is in the dark teams box versus the light teams box is also shown at the top of the screen. When this number drops below 0.5, the possession flag switches to the Light team.
+
 This whole process from raw video to highlight reel is shown in the [DeepSort notebook](DeepSort.ipynb).
-![](IMAGES/player-tracked.gif)
 
 ### Metrics
 Unfortunately, I did not have labeled data that identified which players were on each team or which team had the ball. Because of this I wasn’t able to gather exact metrics for these features. I used all of my labeled data that identified the basketball and made baskets to train the model. With more time, I would label more images to run a performance analysis on my model using the [evaluatemAP](evaluate_mAP.py) file from the PYLessons repository. I would need to convert the labeled data into a proper test file. 
